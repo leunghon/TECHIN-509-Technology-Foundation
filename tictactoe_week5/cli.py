@@ -1,13 +1,41 @@
-from logic import make_empty_board
+#from logic import make_empty_board
+import logic
 
 
 if __name__ == '__main__':
-    board = make_empty_board()
+    board = logic.make_empty_board()
     winner = None
+    player = None
+    if player == None:
+        player = input('Please pick either X or O to play the game')
+        print('Player 1, you are ', player)
+        player_b = logic.other_player(player)
+        print('Player 2, you are ', player_b)
+    turn = player
     while winner == None:
-        print("TODO: take a turn!")
+        if logic.board_with_space(board) is False:
+            winner = 'Even'
+            print('This game ends in a draw')
+        else:
+            print(turn, "TODO: take a turn!")
+            print('This is the current board', board)
+            player_row_choice = int(input('Please enter the row you want to change?'))
+            player_col_choice = int(input('Please enter the col you want to change?'))
+            if logic.empty_spot(board, player_row_choice, player_col_choice) is True:
+                logic.make_move(board, turn, player_row_choice, player_col_choice)
+                print('Here is the updated board: ', board)
+                if logic.get_winner(board) is not None:
+                    winner = logic.get_winner(board)
+                    print('Congratulations. ', winner, ' has won the game!')
+                else:
+                    if turn == player:
+                        turn = player_b
+                    else:
+                        turn = player
+            else:
+                print('Please re-enter your turn.')
+
         # TODO: Show the board to the user.
         # TODO: Input a move from the player.
         # TODO: Update the board.
         # TODO: Update who's turn it is.
-        winner = 'X'  # FIXME
