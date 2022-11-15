@@ -1,4 +1,5 @@
 import unittest
+
 import logic
 
 
@@ -55,7 +56,24 @@ class TestLogic(unittest.TestCase):
         ] 
         x = 3
         y = 3
-        self.assertEqual(logic.empty_spot(board, x, y), True)              
+        self.assertEqual(logic.empty_spot(board, x, y), True)
+
+    def test_bot_move(self):
+        board = [
+            ['X', 'O', 'O'],
+            ['O', 'X', 'X'],
+            ['X', 'O', None],
+        ]
+        player = 'O'
+        self.assertEqual(logic.bot.move(board, player), [
+            ['X', 'O', 'O'],
+            ['O', 'X', 'X'],
+            ['X', 'O', 'O'],
+        ])
+
+    def test_bot_name(self):
+        Bot = logic.bot('X')
+        self.assertEqual(Bot.name(), 'X')            
     # TODO: Test all functions from logic.py!
 
 

@@ -1,3 +1,6 @@
+import random
+
+
 def make_empty_board():
     return [
         [None, None, None],
@@ -74,3 +77,17 @@ def empty_spot(board, x, y):
     if board[x - 1][y - 1] == None:
         return True
     return False
+
+class bot:
+    def __init__(self, player):
+        self.player = player
+    
+    def move(board, player):
+        x = random.randint(0, 3)
+        y = random.randint(0, 3)
+        if empty_spot(board, x, y) is True:
+            return make_move(board, player,x, y)
+        return bot.move(board, player)
+
+    def name(self):
+        return self.player
