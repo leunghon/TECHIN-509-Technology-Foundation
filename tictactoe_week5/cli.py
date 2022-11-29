@@ -2,28 +2,40 @@
 import logic
 import csv
 import pandas as pd
-import uuid
+#import uuid
 
 
 def read_games():
     try:
-        return pd.read_csv('games.csv')
+        return pd.read_csv('./games.csv')
     except FileNotFoundError:
         return pd.DataFrame(columns=[
             'Game ID',
             'Player A',
             'Player B',
             'Winner',
-            'Total Moves'
-        ])
-games = read_games()
-games.to_csv('/Users/leunghon/Documents/文件 - Hon的MacBook Pro - 1/Leung Hon/GIX/TECHIN 509 Technology Foundation/tictactoe_week5/games.csv')
+            'Total Moves',
+            ])
+
+def log(games, p1, p2, winner, moves):
+    games.loc[len(games)] = {
+        'Game ID' : len(games),
+        'Player A' : p1,
+        'Player B' : p2,
+        "Winner" : winner,
+        'Total Moves' : moves
+    }
+
+
+
 
 if __name__ == '__main__':
     board = logic.make_empty_board()
     winner = None
     player = None
     moves = 0
+    games = read_games()
+    #games = read_games()
     if player == None:
         player_with_bot = input('Are you playing alone? Please enter Y or N')
         if player_with_bot == 'N':
@@ -38,7 +50,8 @@ if __name__ == '__main__':
                 if logic.board_with_space(board) is False:
                     winner = 'Even'
                     print('This game ends in a draw')
-                    games.loc[len(games.index)] = ({'Game ID' : str(uuid.uuid4()), 'Player A' : player_name_a, 'Player B' : player_name_b, 'Winner' : winner, 'Total Moves' : moves})
+                    log(games, player_name_a, player_name_b, winner, moves)
+                    #games.append(pd.DataFrame({'Game ID' : str(uuid.uuid4()), 'Player A' : player_name_a, 'Player B' : player_name_b, 'Winner' : winner, 'Total Moves' : moves}))
                 else:
                     print(turn, "TODO: take a turn!")
                     print('This is the current board', board)
@@ -51,7 +64,8 @@ if __name__ == '__main__':
                         if logic.get_winner(board) is not None:
                             winner = logic.get_winner(board)
                             print('Congratulations. ', winner, ' has won the game!')
-                            games.loc[len(games.index)] = ({'Game ID' : str(uuid.uuid4()), 'Player A' : player_name_a, 'Player B' : player_name_b, 'Winner' : winner, 'Total Moves' : moves})
+                            log(games, player_name_a, player_name_b, winner, moves)
+                            #games.append(pd.DataFrame({'Game ID' : str(uuid.uuid4()), 'Player A' : player_name_a, 'Player B' : player_name_b, 'Winner' : winner, 'Total Moves' : moves}))
                         else:
                             if turn == player:
                                 turn = player_b
@@ -68,10 +82,12 @@ if __name__ == '__main__':
             player_b = Bot.name()
             turn = player
             while winner == None:
+                print(games)
                 if logic.board_with_space(board) is False:
                     winner = 'Even'
                     print('This game ends in a draw')
-                    games.loc[len(games.index)] = ({'Game ID' : str(uuid.uuid4()), 'Player A' : player_name_a, 'Player B' : player_name_b, 'Winner' : winner, 'Total Moves' : moves})
+                    log(games, player_name_a, player_name_b, winner, moves)
+                    #games.append(pd.DataFrame({'Game ID' : str(uuid.uuid4()), 'Player A' : player_name_a, 'Player B' : player_name_b, 'Winner' : winner, 'Total Moves' : moves}))
                 else:
                     if turn == player:
                         print(turn, "TODO: take a turn!")
@@ -85,7 +101,8 @@ if __name__ == '__main__':
                             if logic.get_winner(board) is not None:
                                 winner = logic.get_winner(board)
                                 print('Congratulations. ', winner, ' has won the game!')
-                                games.loc[len(games.index)] = ({'Game ID' : str(uuid.uuid4()), 'Player A' : player_name_a, 'Player B' : player_name_b, 'Winner' : winner, 'Total Moves' : moves})
+                                log(games, player_name_a, player_name_b, winner, moves)
+                                #games.append(pd.DataFrame({'Game ID' : str(uuid.uuid4()), 'Player A' : player_name_a, 'Player B' : player_name_b, 'Winner' : winner, 'Total Moves' : moves}))
                             else:
                                 turn = player_b
                         else:
@@ -97,10 +114,11 @@ if __name__ == '__main__':
                         if logic.get_winner(board) is not None:
                             winner = logic.get_winner(board)
                             print('Congratulations. ', winner, ' has won the game!')
-                            games.loc[len(games.index)] = ({'Game ID' : str(uuid.uuid4()), 'Player A' : player_name_a, 'Player B' : player_name_b, 'Winner' : winner, 'Total Moves' : moves})
+                            log(games, player_name_a, player_name_b, winner, moves)
+                            #games.append(pd.DataFrame({'Game ID' : str(uuid.uuid4()), 'Player A' : player_name_a, 'Player B' : player_name_b, 'Winner' : winner, 'Total Moves' : moves}))
                         else:
                             turn = player
-
+        games.to_csv('/Users/leunghon/Documents/文件 - Hon的MacBook Pro - 1/Leung Hon/GIX/TECHIN 509 Technology Foundation/tictactoe_week5/games.csv')
 
 
 
